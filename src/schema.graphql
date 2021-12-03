@@ -1,5 +1,6 @@
 type Query {
   test: String!
+  mostSearched: [MostSearchedCats]
 }
 
 type Mutation {
@@ -9,4 +10,11 @@ type Mutation {
 type CatSuggested {
   id: String!
   catName: String!
+}
+
+type MostSearchedCats {
+  id: Int!
+  originalId: String!
+  name: String!
+  timesSearched: Int!
 }
