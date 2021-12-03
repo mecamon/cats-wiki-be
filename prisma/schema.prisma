@@ -10,7 +10,7 @@ datasource db {
 
 model MostSearched {
   id              Int       @id @default(autoincrement())
-  originalId      String        
+  originalId      String    @unique
   name            String
   timesSearched   Int
 }

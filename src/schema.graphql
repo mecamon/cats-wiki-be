@@ -1,18 +1,30 @@
 type Query {
-  test: String!
-  mostSearched: [MostSearchedCats]
+  search(entry: String!): [BreedSuggested!]
+  mostSearched: [MostSearchedBreeds]
+  getBreed(breedId: String!): Cat!
 }
 
-type Mutation {
-  search(entry: String!): [CatSuggested!]
+type Cat {
+  description: String! 
+  temperament: String!
+  origin: String!
+  lifeSpan: String! 
+  adaptability: Int!
+  affectionLevel: Int!
+  childFriendly: Int!
+  grooming: Int!
+  intelligence: Int!
+  healthIsues: Int!
+  socialNeeds: Int!
+  strangerFriendly: Int!
 }
 
-type CatSuggested {
+type BreedSuggested {
   id: String!
   catName: String!
 }
 
-type MostSearchedCats {
+type MostSearchedBreeds {
   id: Int!
   originalId: String!
   name: String!
