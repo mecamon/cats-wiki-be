@@ -1,0 +1,12 @@
+type Query {
+  test: String!
+}
+
+type Mutation {
+  search(entry: String!): [CatSuggested!]
+}
+
+type CatSuggested {
+  id: String!
+  catName: String!
+}
