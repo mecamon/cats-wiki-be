@@ -17,6 +17,7 @@ type Cat {
   healthIsues: Int!
   socialNeeds: Int!
   strangerFriendly: Int!
+  images: [String!]!
 }
 
 type BreedSuggested {

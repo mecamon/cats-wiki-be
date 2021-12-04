@@ -31,6 +31,8 @@ async function getBreed(parent, args, context, info) {
   if(error) throw Error('Something wrong happenned!');
 
   const breed = data[0].breeds[0];
+  breed.images = data.map(item => item.url);
+
   const breedInfo = generateBreedInfo(breed);
   const catsRepo = context.catsRepo;
 
@@ -43,7 +45,7 @@ async function fetchBreedFromExternalApi(breedId) {
   let results = { data: null, error: null };
 
   try {
-    const { data } = await axios.get(`${baseURL}/images/search?breed_ids=${breedId}`);
+    const { data } = await axios.get(`${baseURL}/images/search?breed_ids=${breedId}&limit=8`);
     results.data = data;
 
   } catch(error) {
@@ -64,6 +66,7 @@ async function updateBreedPopularity(catsRepo, breed) {
 }
 
 function generateBreedInfo(breedInfo) {
+
   return {
     description: breedInfo.description,
     temperament: breedInfo.temperament,
@@ -76,7 +79,8 @@ function generateBreedInfo(breedInfo) {
     intelligence: breedInfo.intelligence,
     healthIsues: breedInfo.health_issues,
     socialNeeds: breedInfo.social_needs,
-    strangerFriendly: breedInfo.stranger_friendly
+    strangerFriendly: breedInfo.stranger_friendly,
+    images: breedInfo.images
   }
 }
 
