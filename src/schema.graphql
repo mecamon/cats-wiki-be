@@ -18,6 +18,7 @@ type Cat {
   socialNeeds: Int!
   strangerFriendly: Int!
   images: [String!]!
+  wikipediaUrl: String!
 }
 
 type BreedSuggested {

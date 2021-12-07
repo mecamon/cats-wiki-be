@@ -80,7 +80,8 @@ function generateBreedInfo(breedInfo) {
     healthIsues: breedInfo.health_issues,
     socialNeeds: breedInfo.social_needs,
     strangerFriendly: breedInfo.stranger_friendly,
-    images: breedInfo.images
+    images: breedInfo.images,
+    wikipediaUrl: breedInfo.wikipedia_url
   }
 }
 
