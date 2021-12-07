@@ -30,5 +30,6 @@ type MostSearchedBreeds {
   id: Int!
   originalId: String!
   name: String!
+  image: String!
   timesSearched: Int!
 }

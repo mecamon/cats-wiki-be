@@ -12,5 +12,6 @@ model MostSearched {
   id              Int       @id @default(autoincrement())
   originalId      String    @unique
   name            String
+  image           String    
   timesSearched   Int
 }

@@ -15,23 +15,24 @@ async function getBreed(breedId) {
 
 async function upsertPopularBreeds(breed) {
 
-  const { timesSearched } = await getBreed(breed.id)
+  const localBreed = await getBreed(breed.id);
 
-  const cat = await ormClient.mostSearched.upsert({
+  const breedUpdated = await ormClient.mostSearched.upsert({
     where: {
       originalId: breed.id,
     },
     update: {
-      timesSearched: timesSearched + 1
+      timesSearched: localBreed ? localBreed.timesSearched + 1 : 1
     },
     create: {
       originalId: breed.id,
       name: breed.name,
+      image: breed.image,
       timesSearched: 1
     }
   });
 
-  return cat.id;
+  return breedUpdated.id;
 }
 
 module.exports = {

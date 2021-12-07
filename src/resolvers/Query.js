@@ -4,7 +4,7 @@ const baseURL = require('../utils/base-url');
 
 async function search(parent, args, context, info) {
   
-  const data = suggestedFromExternalApi(args.entry);
+  const data = await suggestedFromExternalApi(args.entry);
   const suggestedCats = data.map(cat => ({id: cat.id, catName: cat.name}));
 
   return suggestedCats;
@@ -21,7 +21,12 @@ async function suggestedFromExternalApi(entry) {
 }
 
 async function mostSearched(parent, args, context, info) {
-  return await context.catsRepo.getPopularBreeds();
+  const breeds = await context.catsRepo.getPopularBreeds();
+  const sortedByPopularityBreeds = breeds.sort(function(a, b) {
+    return b.timesSearched - a.timesSearched;
+  });
+
+  return sortedByPopularityBreeds;
 }
 
 async function getBreed(parent, args, context, info) {
@@ -58,7 +63,8 @@ async function updateBreedPopularity(catsRepo, breed) {
   try {
     await catsRepo.upsertPopularBreeds({
       id: breed.id,
-      name: breed.name
+      name: breed.name,
+      image: breed.images[0]
     });
   }catch(error) {
     throw Error(error);
