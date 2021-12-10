@@ -12,4 +12,6 @@ const server = new ApolloServer({
   context: { catsRepo }
 });
 
-server.listen().then(({url}) => console.log(`Server running on ${url}`))
+const port = process.env.PORT || 4000;
+
+server.listen({port}).then(({url}) => console.log(`Server running on ${url}`))
