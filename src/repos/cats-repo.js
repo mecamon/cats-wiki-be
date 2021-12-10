@@ -27,6 +27,7 @@ async function upsertPopularBreeds(breed) {
     create: {
       originalId: breed.id,
       name: breed.name,
+      description: breed.description,
       image: breed.image,
       timesSearched: 1
     }

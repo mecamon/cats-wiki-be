@@ -1,23 +1,13 @@
-const { default: axios } = require("axios");
-const baseURL = require('../utils/base-url');
+const catsApi = require('../../services/cats-api');
 
 
 async function search(parent, args, context, info) {
-  
-  const data = await suggestedFromExternalApi(args.entry);
+  const { data, error } = await catsApi.suggested(args.entry);
   const suggestedCats = data.map(cat => ({id: cat.id, catName: cat.name}));
 
+  if(error) throw Error('Something wrong happenned!');
+
   return suggestedCats;
-}
-
-async function suggestedFromExternalApi(entry) {
-  try {
-    const { data } = await axios.get(`${baseURL}/breeds/search?q=${entry}`);
-    return data;
-
-  }catch(error) {
-    throw Error('Something wrong happenned!');
-  }
 }
 
 async function mostSearched(parent, args, context, info) {
@@ -30,8 +20,7 @@ async function mostSearched(parent, args, context, info) {
 }
 
 async function getBreed(parent, args, context, info) {
-  
-  const { data, error } = await fetchBreedFromExternalApi(args.breedId);
+  const { data, error } = await catsApi.fetchBreed(args.breedId);
 
   if(error) throw Error('Something wrong happenned!');
 
@@ -46,24 +35,12 @@ async function getBreed(parent, args, context, info) {
   return breedInfo;
 }
 
-async function fetchBreedFromExternalApi(breedId) {
-  let results = { data: null, error: null };
-
-  try {
-    const { data } = await axios.get(`${baseURL}/images/search?breed_ids=${breedId}&limit=8`);
-    results.data = data;
-
-  } catch(error) {
-    results.error = error.response.data;
-  }
-  return results;
-}
-
 async function updateBreedPopularity(catsRepo, breed) {
   try {
     await catsRepo.upsertPopularBreeds({
       id: breed.id,
       name: breed.name,
+      description: breed.description,
       image: breed.images[0]
     });
   }catch(error) {
@@ -72,8 +49,8 @@ async function updateBreedPopularity(catsRepo, breed) {
 }
 
 function generateBreedInfo(breedInfo) {
-
   return {
+    name: breedInfo.name,
     description: breedInfo.description,
     temperament: breedInfo.temperament,
     origin: breedInfo.origin,
@@ -83,7 +60,7 @@ function generateBreedInfo(breedInfo) {
     childFriendly: breedInfo.child_friendly,
     grooming: breedInfo.grooming,
     intelligence: breedInfo.intelligence,
-    healthIsues: breedInfo.health_issues,
+    healthIssues: breedInfo.health_issues,
     socialNeeds: breedInfo.social_needs,
     strangerFriendly: breedInfo.stranger_friendly,
     images: breedInfo.images,

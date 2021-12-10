@@ -5,6 +5,7 @@ type Query {
 }
 
 type Cat {
+  name: String!
   description: String! 
   temperament: String!
   origin: String!
@@ -14,7 +15,7 @@ type Cat {
   childFriendly: Int!
   grooming: Int!
   intelligence: Int!
-  healthIsues: Int!
+  healthIssues: Int!
   socialNeeds: Int!
   strangerFriendly: Int!
   images: [String!]!
@@ -30,6 +31,7 @@ type MostSearchedBreeds {
   id: Int!
   originalId: String!
   name: String!
+  description: String!
   image: String!
   timesSearched: Int!
 }
