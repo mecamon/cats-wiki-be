@@ -22,7 +22,9 @@ async function mostSearched(parent, args, context, info) {
 async function getBreed(parent, args, context, info) {
   const { data, error } = await catsApi.fetchBreed(args.breedId);
 
-  if(error) throw Error('Something wrong happenned!');
+  if(error) {
+    throw Error('Something wrong happenned!');
+  } 
 
   const breed = data[0].breeds[0];
   breed.images = data.map(item => item.url);
